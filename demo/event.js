@@ -7,4 +7,4 @@ event.on('some_event', function(){
 
 setTimeout(function(){
 	event.emit('some_event');
-}, 1000);
+}, 5000);
