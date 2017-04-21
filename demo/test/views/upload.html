@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="stylesheets/bootstrap.min.css" media="screen">
+    <style type="text/css">
+    .m15{ margin: 15px;}
+     .tc{ text-align: center;font-size: 18px;font-weight: 600;}
+    </style>
+</head>
+<body screen_capture_injected="true">
+    <h3>文件上传：</h3>
+	选择一个文件上传: <br />
+	<form action="/upload" method="post" enctype="multipart/form-data">
+	<input type="file" name="inputFile" size="50" />
+	<br />
+	<input type="submit" value="上传文件" />
+	</form>
+</body>
+</head>
+</html>

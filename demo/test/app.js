@@ -62,7 +62,7 @@ app.use('/login',routes); // 即为为路径 /login 设置路由
 app.use('/register',routes); // 即为为路径 /register 设置路由
 app.use('/home',routes); // 即为为路径 /home 设置路由
 app.use("/logout",routes); // 即为为路径 /logout 设置路由
-
+app.use("/upload",routes); // 即为为路径 /upload 设置路由
 
 // 下边这里也加上 use(multer())
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -76,6 +76,8 @@ app.use(function(req, res, next) {
   err.status = 404;
   next(err);
 });
+
+
 
 // error handler
 app.use(function(err, req, res, next) {
