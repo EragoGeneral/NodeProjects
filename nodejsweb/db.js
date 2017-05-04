@@ -1,6 +1,6 @@
 module.exports = {
     mysql: {
-        host: '127.0.0.1',
+        host: '10.10.3.70',
         user: 'root',
         password: 'root',
         database:'mybatis',

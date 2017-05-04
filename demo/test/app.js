@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var cars = require('./routes/cars');
 
 var multer = require('multer');
 var mongoose = require('mongoose');
@@ -16,7 +17,7 @@ var session = require('express-session');
 var app = express();
 
 global.dbHandel = require('./database/dbHandel');
-global.db = mongoose.connect("mongodb://10.10.3.27:27017/nodedb");
+global.db = mongoose.connect("mongodb://10.10.3.85:27017/nodedb");
 
 
 // 开启 session 设置
@@ -63,6 +64,7 @@ app.use('/register',routes); // 即为为路径 /register 设置路由
 app.use('/home',routes); // 即为为路径 /home 设置路由
 app.use("/logout",routes); // 即为为路径 /logout 设置路由
 app.use("/upload",routes); // 即为为路径 /upload 设置路由
+app.use("/car", cars);
 
 // 下边这里也加上 use(multer())
 app.use(bodyParser.urlencoded({ extended: true }));

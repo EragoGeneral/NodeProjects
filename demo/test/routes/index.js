@@ -4,6 +4,8 @@ var formidable = require('formidable');
 var fs = require('fs');
 var AVATAR_UPLOAD_FOLDER = '/avatar/';
 
+var TITLE = '文件上传成功';
+
 /* GET home page. */
 /*router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
@@ -12,6 +14,11 @@ var AVATAR_UPLOAD_FOLDER = '/avatar/';
 /* GET index page. */
 router.get('/', function(req, res,next) {
   res.render('index', { title: 'Express' });    // 到达此路径则渲染index文件，并传出title值供 index.html使用
+});
+
+
+router.route("/upload").get(function(req,res){    // 到达此路径则渲染register文件，并传出title值供 upload.html使用
+    res.render("upload",{title:'File upload'});
 });
 
 /* GET login page. */
@@ -93,12 +100,6 @@ router.get("/logout",function(req,res){    // 到达 /logout 路径则登出， 
     res.redirect("/");
 });
 
-var fs = require("fs");
-
-router.route("/upload").get(function(req,res){    // 到达此路径则渲染register文件，并传出title值供 upload.html使用
-    res.render("upload",{title:'File upload'});
-})
-
 router.post('/upload', function(req, res){
 	var form = new formidable.IncomingForm();   //创建上传表单
 	  form.encoding = 'utf-8';		//设置编辑
@@ -114,7 +115,7 @@ router.post('/upload', function(req, res){
 		  return;		
 		}  
 	    console.log(files);
-		/*
+		
 		var extName = '';  //后缀名
 		switch (files.fulAvatar.type) {
 			case 'image/pjpeg':
@@ -135,7 +136,7 @@ router.post('/upload', function(req, res){
 			  res.locals.error = '只支持png和jpg格式图片';
 			  res.render('index', { title: TITLE });
 			  return;				   
-		}*/
+		}
 
 		var avatarName = Math.random() + '.' + extName;
 		var newPath = form.uploadDir + avatarName;
