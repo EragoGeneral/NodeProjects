@@ -22,8 +22,8 @@ module.exports = {
 	add: function(req, res, next){
 		pool.getConnection(function(err, connection){
 			var param = req.query || req.params;
-			var keyword = encodeURIComponent('单肩包');
-			http.get('http://www.xiaohongshu.com/api/store/ps/items?keyword='+keyword+'&mode=word_search&page=1&per_page=200&sort=price&direction=&source=classifications&android_app_ssl=1&platform=Android&deviceId=b3b6dd93-a51c-3ace-a79c-fbdff5a4f70c&versionName=4.21&channel=Store360&sid=session.1181513049171586078&lang=zh-CN&t=1497022624&sign=b4c71eaf69f34bf87a06cd5d058475e9', function (res) {
+			var keyword = encodeURIComponent('手表');
+			http.get('http://www.xiaohongshu.com/api/store/ps/items?keyword='+keyword+'&mode=word_search&page=4&per_page=400&sort=price&direction=&source=classifications&android_app_ssl=1&platform=Android&deviceId=b3b6dd93-a51c-3ace-a79c-fbdff5a4f70c&versionName=4.21&channel=Store360&sid=session.1181513049171586078&lang=zh-CN&t=1497022624&sign=b4c71eaf69f34bf87a06cd5d058475e9', function (res) {
 				var json = '';
 				res.on('data', function (d) {
 					json += d;
