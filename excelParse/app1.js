@@ -1,6 +1,6 @@
 var xlsx = require("node-xlsx");
 
-var list = xlsx.parse("C://translation.xlsx");
+var list = xlsx.parse("C://study//workspace//node//NodeProjects//excelParse//test.xlsx");
 var fs = require("fs"); 
 
 //读出后是数组，包含每个sheet
@@ -46,15 +46,5 @@ for(var i=0; i < list.length; i++){
 			console.log('The "data to append" was appended to file!');
 		});
 	}
-	/*
-	fs.appendFile(fileName, content, function (err) {
-			if (err) throw err;
-			console.log('The "data to append" was appended to file!');
-		});*/
-	
-	/*fs.appendFile(fileName, '}', function (err) {
-		if (err) throw err;
-		console.log('The "data to append" was appended to file!');
-	});*/
 	
 }
