@@ -1,7 +1,7 @@
 var delFolder = require('./delete.js');
 var fs = require('fs');
 
-var dir = "E://a_qiniu//test//syncUser_upload//";
+var dir = "E://a_qiniu//syncUser//syncUser_upload//";
 
 //var files = ['1525', '2955']
 

@@ -3,7 +3,7 @@ var fs = require( 'fs' ), stat = fs.stat;
 
 
 // ¸´ÖÆÄ¿Â¼
-fs.readdir('G://upload//', function(err, files){
+fs.readdir('G://upload//product//', function(err, files){
 	var cnt = 0;
 	
 	if(err){
@@ -14,7 +14,7 @@ fs.readdir('G://upload//', function(err, files){
 	files.forEach(function(filename){
 		if(cnt < 5){
 			//copy( 'G://upload//'+filename, 'E:\\a_qiniu\\test\\syncUser_upload\\'+filename);	
-			mv('G://upload//'+filename, 'E:\\a_qiniu\\test\\syncUser_upload\\'+filename, function(err) {				
+			mv('G://upload//product//'+filename, 'E:\\a_qiniu\\syncUser\\syncUser_upload\\'+filename, function(err) {				
 				if(err){
 					console.log(err);
 					return;

@@ -4,11 +4,11 @@ var fs  = require('fs');
 
 
 var pool  = mysql.createPool({
-	host: '10.10.1.12',          
+	host: '120.76.77.90',          
 	port: '3306',                  
-	user: 'root',
+	user: 'ubx',
 	database: 'ubxdb',  
-	password: 'ubt83474428!@'
+	password: 'Ubt123654'
 });
 
 var query=function(sql,callback){  

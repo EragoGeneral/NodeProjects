@@ -18,7 +18,7 @@ bucket = 'ubtech';
 //key = 'jimu/modelImages/default/TankbotPro.zip';
 
 //用户自定义模型缩略图上传
-baseKey = 'jimu/test/user/files/';
+baseKey = 'jimu/user/files/';
 key = '';
 
 //构建上传策略函数
@@ -32,7 +32,7 @@ function uptoken(bucket, key) {
 //要上传文件的本地路径
 filePath = 'E:\\dev\\actionZip\\TankbotPro.zip'
 
-var dir = "E:\\a_qiniu\\test\\syncUser_upload";
+var dir = "E:\\a_qiniu\\syncUser\\syncUser_upload";
 
 //构造上传函数
 function uploadFile(uptoken, key, localFile) {
@@ -74,7 +74,4 @@ travel(dir, function (pathname) {
     uploadFile(token, key, pathname);
 });
 
-fs.readdir(dir, function(err, files){
-	console.log(files);
-	delDir(dir+'\\'+files);
-});
+
