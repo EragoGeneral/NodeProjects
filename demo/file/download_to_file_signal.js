@@ -10,7 +10,7 @@ var baseDir = 'E://a_qiniu//syncUser//readyToUpload//';
 var preUrl = 'http://jimu.ubtrobot.com/syncUser/';
 
 
-var downloadFile = 'http://jimu.ubtrobot.com/syncUser/沈先生/default/Meebot/actions/actions_636342562981962290.xml';
+var downloadFile = 'http://jimu.ubtrobot.com/syncUser/582787981@qq.com/playerdata/170704183522552222/actions/actions_636347930790331980.xml';
 var relaPath = downloadFile.substring(preUrl.length); 
 download(downloadFile, baseDir + relaPath, function (err) {
   if (err) throw err
