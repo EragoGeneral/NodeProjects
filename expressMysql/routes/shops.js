@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var shopDao = require('../dao/shopDao');
 
-router.get('/addProduct', function(req, res, next){
+router.get('/addProduct/:keyword/:start', function(req, res, next){
 	shopDao.add(req, res, next);
 });
 

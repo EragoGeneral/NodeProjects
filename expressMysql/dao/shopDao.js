@@ -20,11 +20,17 @@ var jsonWrite = function(res, ret){
 
 module.exports = {
 	add: function(req, res, next){
+		console.log(req.params.keyword);
+		console.log(req.params.start);
+		
 		pool.getConnection(function(err, connection){
 			var param = req.query || req.params;
-			var kw = '手表'
+			var kw = req.params.keyword;
+			var start = req.params.start;			
+			kw = kw.replace('@@', '/'); 
+			console.log(kw);
 			var keyword = encodeURIComponent(kw);
-			http.get('http://www.xiaohongshu.com/api/store/ps/items?keyword='+keyword+'&mode=word_search&page=4&per_page=500&sort=price&direction=&source=classifications&android_app_ssl=1&platform=Android&deviceId=b3b6dd93-a51c-3ace-a79c-fbdff5a4f70c&versionName=4.21&channel=Store360&sid=session.1181513049171586078&lang=zh-CN&t=1497022624&sign=b4c71eaf69f34bf87a06cd5d058475e9', function (res) {
+			http.get('http://www.xiaohongshu.com/api/store/ps/items?keyword='+keyword+'&mode=word_search&page='+ start +'&per_page=500&sort=price&direction=&source=classifications&android_app_ssl=1&platform=Android&deviceId=b3b6dd93-a51c-3ace-a79c-fbdff5a4f70c&versionName=4.21&channel=Store360&sid=session.1181513049171586078&lang=zh-CN&t=1497022624&sign=b4c71eaf69f34bf87a06cd5d058475e9', function (res) {
 				var json = '';
 				res.on('data', function (d) {
 					json += d;
@@ -33,29 +39,38 @@ module.exports = {
 				    json = JSON.parse(json);					
 					var items = json.data.items;
 					items.forEach(function(item){
-						
-						//console.log($util.decode(item.title));
-						var price = item.price == "" ? 0.00 : item.price;
-						connection.query($sql.insert, [item.buyable, item.category_id, kw, $util.decode(item.desc), item.discount_price, $util.decode(item.feature), 
-							item.height, item.id, item.image, item.ipq, item.link, item.new_arriving, price, $util.decode(item.promotion_text), item.seller_id , 
-							item.skucode, $util.decode(item.stock_shortage), item.stock_status , $util.decode(item.title), item.vendor_icon, item.whcode , item.width], 
-							function(err, result){	
-								
-								console.log(err);
-								console.log(item.id);
-								if(result){
-									result = {
-										code: 200,
-										msg: '增加成功'
-									};
-								}												
+						var id = item.id;
+						var data = {};
+						connection.query($sql.queryById, id, function(err, rows, fields) {																	
+							//console.log(rows);								
+							//console.log(fields);
+							console.log(rows.length);
+							
+							if(rows.length === 0){
+								//console.log($util.decode(item.title));
+								var price = item.price == "" ? 0.00 : item.price;
+								connection.query($sql.insert, [item.buyable, item.category_id, kw, $util.decode(item.desc), item.discount_price, $util.decode(item.feature), 
+									item.height, item.id, item.image, item.ipq, item.link, item.new_arriving, price, $util.decode(item.promotion_text), item.seller_id , 
+									item.skucode, $util.decode(item.stock_shortage), item.stock_status , $util.decode(item.title), item.vendor_icon, item.whcode , item.width], 
+									function(err, result){	
+										
+										console.log(err);
+										console.log(item.id);
+										if(result){
+											result = {
+												code: 200,
+												msg: '增加成功'
+											};
+										}												
+								});
+							}
 						});
 					});						
 					connection.release();
 				});
 			}).on('error', function (e) {
 				console.error(e);
-			});
+			});			
 		});
 		
 		res.render('index');
