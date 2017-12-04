@@ -15,7 +15,8 @@ var url = "http://stockpage.10jqka.com.cn/";
 
 function fetchPage(x) {     //封装了一层函数
     //startRequest(x);
-    loadAllStocks();
+    //loadAllStocks();
+    loadStockDetailInfo(7, 500);
 }
 
 
@@ -272,9 +273,12 @@ function loadStockInfo(stocks) {
                         console.log(err);
                     });*/
                     var record = [];
+                    var timestamp = new Date();
                     record.push(code);
                     record.push(name);
                     record.push(syl);
+                    record.push(timestamp);
+                    record.push(timestamp);
                     record.push(0);
                     db.initStockInfo(record, function (err, rows) {
                         if (err) {
@@ -287,4 +291,92 @@ function loadStockInfo(stocks) {
             });
         })(pos, url);
     }
+}
+
+function loadStockDetailInfo(pageNum, pageSize){
+    var pageIndex = (pageNum-1)*pageSize;
+    db.queryStockByPage(pageIndex, pageSize, function (err, rows, fields) {
+        if(err){
+            console.log(err);
+        }
+        rows.forEach(function(item){
+            var code = item.code;
+            //console.log(item.code);
+            var detailUrl = url + code + '/';
+            (function(code, detailUrl){
+                http.get(detailUrl, function (res) {
+                    console.log(url);
+                    var html = '';        //用来存储请求网页的整个html内容
+                    var titles = [];
+                    res.setEncoding('utf-8'); //防止中文乱码
+                    //监听data事件，每次取一块数据
+                    res.on('data', function (chunk) {
+                        html += chunk;
+                    });
+                    //监听end事件，如果整个网页内容的html都获取完毕，就执行回调函数
+                    res.on('end', function () {
+                        var $ = cheerio.load(html); //采用cheerio模块解析html
+
+                        var name = $('.m_logo strong').text();
+                        console.log(name);
+
+                        var data = [];
+                        var titleArray = [];
+                        var valueArray = [];
+                        var detail_title = $('.company_details dt');
+                        var detail_value = $('.company_details dd');
+                        //console.log(detail.text());
+                        detail_title.each(function (idx, element) {
+                            //console.log(idx);
+                            var $element = $(element);
+                            //console.log($element.text());
+                            var header = $element.text();
+                            //console.log(i);
+                            //console.log(j);
+                            titleArray.push(header);
+                        });
+                        detail_value.each(function (idx, element) {
+                            //console.log(data[idx]);
+                            if (idx != 3) {
+                                var $element = $(element);
+                                var val = $(element).attr('title');
+                                if (val == undefined) {
+                                    val = $element.text();
+                                }
+                                valueArray.push(val);
+                            }
+                        });
+
+                        for (var idx = 0; idx < titleArray.length; idx++) {
+                            var d = {
+                                'title': titleArray[idx],
+                                'value': valueArray[idx]
+                            };
+                            data.push(d);
+                        }
+                        console.log(data);
+                        
+						
+                        var concept = valueArray[1];
+                        var total_guben = valueArray[12];
+                        var flow_guben = valueArray[13];
+                        var timestamp = new Date();
+                        var sql = 'update stock set concept = ?, total_guben = ?, flow_guben = ?, update_time = ? where code = ?';
+                        var params = [concept, total_guben, flow_guben, timestamp, code];
+                        console.log(sql);
+                        console.log(params);
+                        db.updateStockDetailInfo(sql, params, function(err, rows, fields) {
+                            if(err){
+                                console.log(err);
+                            }
+                            console.log(rows.affectedRows);
+                        });
+                    });
+                }).on('error', function (err) {
+                    console.log(err);
+                });
+            })(code, detailUrl);
+        });
+        //console.log(fields);
+    })
 }

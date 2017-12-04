@@ -33,14 +33,27 @@ module.exports = {
         connection.query('select * from stock where code = ?', code, function (err, rows, fields) {
             callback(err, rows);
         });
+        connection.releaseConnection();
     },
 
     initStockInfo : function initStockInfo(values,callback){
         //connection.query("insert into stock(code, name, concept, total_guben, flow_guben, syl, is_deleted) values (?, ?, ?, ?, ?, ?, 0)", values, function (err, rows, fields) {
-        connection.query("insert into stock(code, name, syl, is_deleted) values (?, ?, ?, 0)", values, function (err, rows, fields) {
+        connection.query("insert into stock(code, name, syl, create_time, update_time, is_deleted) values (?, ?, ?, ?, ?, 0)", values, function (err, rows, fields) {
             console.log("INSERT SUCCESS");
 
             callback(err);
+        });
+    },
+
+    queryStockByPage : function queryStockByPage(pageIndex, pageSize, callback){
+        connection.query('select * from stock where 1=1 order by id limit '+ pageIndex + ',' + pageSize, function (err, rows, fields) {
+            callback(err, rows, fields);
+        });
+    },
+
+    updateStockDetailInfo : function updateStockDetailInfo(sql, params, callback){
+        connection.query(sql, params, function (err, rows, fields) {
+            callback(err, rows, fields);
         });
     }
 };
