@@ -55,5 +55,12 @@ module.exports = {
         connection.query(sql, params, function (err, rows, fields) {
             callback(err, rows, fields);
         });
+    },
+
+    deleteStockMoneyFlow : function deleteStockMoneyFlow(code, callback) {
+        var sql = 'delete from money_flow where stock_code = ?';
+        connection.query(sql, code, function (err, rows, fields) {
+            callback(err, rows, fields);
+        });
     }
 };

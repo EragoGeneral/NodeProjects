@@ -16,7 +16,7 @@ var url = "http://stockpage.10jqka.com.cn/";
 function fetchPage(x) {     //封装了一层函数
     //startRequest(x);
     //loadAllStocks();
-    loadStockDetailInfo(7, 500);
+    loadStockDetailInfo(1, 10);
 }
 
 
@@ -318,7 +318,10 @@ function loadStockDetailInfo(pageNum, pageSize){
                         var $ = cheerio.load(html); //采用cheerio模块解析html
 
                         var name = $('.m_logo strong').text();
-                        console.log(name);
+                        console.log(code);
+
+                        var curPrice = $('#hexm_curPrice');
+                        console.log(curPrice);
 
                         var data = [];
                         var titleArray = [];
@@ -354,7 +357,7 @@ function loadStockDetailInfo(pageNum, pageSize){
                             };
                             data.push(d);
                         }
-                        console.log(data);
+                        //console.log(data);
                         
 						
                         var concept = valueArray[1];
@@ -363,8 +366,8 @@ function loadStockDetailInfo(pageNum, pageSize){
                         var timestamp = new Date();
                         var sql = 'update stock set concept = ?, total_guben = ?, flow_guben = ?, update_time = ? where code = ?';
                         var params = [concept, total_guben, flow_guben, timestamp, code];
-                        console.log(sql);
-                        console.log(params);
+                        //console.log(sql);
+                        //console.log(params);
                         db.updateStockDetailInfo(sql, params, function(err, rows, fields) {
                             if(err){
                                 console.log(err);
