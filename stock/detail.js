@@ -183,7 +183,6 @@ function startRequest(x) {
 
 fetchPage(url);      //主程序开始运行
 
-
 function loadStockInfo(stocks) {
     //var codes = ['002024', '300503', '300668', '603258'];
     var insertRets = [];
@@ -198,80 +197,6 @@ function loadStockInfo(stocks) {
                 console.log(code);
 
                 if (rows.length == 0) {
-                    //采用http模块向服务器发起一次get请求
-                    /*http.get(url, function (res) {
-                        var html = '';        //用来存储请求网页的整个html内容
-                        var titles = [];
-                        res.setEncoding('utf-8'); //防止中文乱码
-                        //监听data事件，每次取一块数据
-                        res.on('data', function (chunk) {
-                            html += chunk;
-                        });
-                        //监听end事件，如果整个网页内容的html都获取完毕，就执行回调函数
-                        res.on('end', function () {
-                            var $ = cheerio.load(html); //采用cheerio模块解析html
-
-                            // var name = $('.m_logo strong').text();
-                            // console.log(name);
-
-                            var data = [];
-                            var titleArray = [];
-                            var valueArray = [];
-                            var detail_title = $('.company_details dt');
-                            var detail_value = $('.company_details dd');
-                            //console.log(detail.text());
-                            detail_title.each(function (idx, element) {
-                                //console.log(idx);
-                                var $element = $(element);
-                                //console.log($element.text());
-                                var header = $element.text();
-                                //console.log(i);
-                                //console.log(j);
-                                titleArray.push(header);
-                            });
-                            detail_value.each(function (idx, element) {
-                                //console.log(data[idx]);
-                                if (idx != 3) {
-                                    var $element = $(element);
-                                    var val = $(element).attr('title');
-                                    if (val == undefined) {
-                                        val = $element.text();
-                                    }
-                                    valueArray.push(val);
-                                }
-                            });
-
-                            for (var idx = 0; idx < titleArray.length; idx++) {
-                                var d = {
-                                    'title': titleArray[idx],
-                                    'value': valueArray[idx]
-                                };
-                                data.push(d);
-                            }
-                            //console.log(data);
-                            var record = [];
-                            record.push(code);
-                            record.push(name);
-                            record.push(valueArray[1]);
-                            record.push(valueArray[12]);
-                            record.push(valueArray[13]);
-                            record.push(syl);
-                            record.push(0);
-                            //console.log(record);
-
-                            db.initStockInfo(record, function (err, rows) {
-                                if (err) {
-                                    console.log(err);
-                                    console.log(rows);
-                                    // res.end('新增失败：' + err);
-                                }
-                            });
-
-
-                        });
-                    }).on('error', function (err) {
-                        console.log(err);
-                    });*/
                     var record = [];
                     var timestamp = new Date();
                     record.push(code);
@@ -301,11 +226,9 @@ function loadStockDetailInfo(pageNum, pageSize){
         }
         rows.forEach(function(item){
             var code = item.code;
-            //console.log(item.code);
             var detailUrl = url + code + '/';
             (function(code, detailUrl){
                 http.get(detailUrl, function (res) {
-                    console.log(url);
                     var html = '';        //用来存储请求网页的整个html内容
                     var titles = [];
                     res.setEncoding('utf-8'); //防止中文乱码
@@ -380,6 +303,5 @@ function loadStockDetailInfo(pageNum, pageSize){
                 });
             })(code, detailUrl);
         });
-        //console.log(fields);
     })
 }

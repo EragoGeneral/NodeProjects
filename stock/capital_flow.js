@@ -14,9 +14,9 @@ var url = "http://ff.eastmoney.com/EM_CapitalFlowInterface/api/js?id=6010191&typ
 //初始url
 
 function fetchPage(x) {     //封装了一层函数
-    loadPageStock(3, 100);
+    //loadPageStock(3, 100);
 
-    var codes = ['002559'];
+    var codes = ['002825'];
     fillMissingMoneyFlow(codes);
 }
 
@@ -113,7 +113,8 @@ function loadStockMoneyFlow(code){
                     records.push(record);
                 }
             }
-            db.deleteStockMoneyFlow(code, function(err, rows, field){
+            var delParams = [code, dateStr];
+            db.deleteStockMoneyFlow(delParams, function(err, rows, field){
                 if(err){
                     console.log('delete...');
                     console.log(err);
