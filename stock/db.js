@@ -7,7 +7,7 @@ var connection = mysql.createConnection({
     host  : '192.168.72.1',
     user  : 'root',
     password : 'root',
-    database : 'db_stock_new'
+    database : 'db_stock'
 });
 
 
@@ -46,7 +46,7 @@ module.exports = {
     },
 
     queryStockByPage : function queryStockByPage(pageIndex, pageSize, callback){
-        connection.query('select * from stock where concept is null order by id limit '+ pageIndex + ',' + pageSize, function (err, rows, fields) {
+        connection.query('select * from stock where POSITION(\'9\' IN CODE) <> 1 and total_guben is null order by id limit '+ pageIndex + ',' + pageSize, function (err, rows, fields) {
             callback(err, rows, fields);
         });
     },
@@ -68,6 +68,13 @@ module.exports = {
     deleteStockMoneyFlow : function deleteStockMoneyFlow(params, callback) {
         var sql = 'delete from money_flow where stock_code = ? and date = ?';
         connection.query(sql, params, function (err, rows, fields) {
+            callback(err, rows, fields);
+        });
+    },
+
+    queryNoMoneyFlow : function queryNoMoneyFlow(sql, params, callback){
+
+        connection.query(sql, params, function(err, rows, fields){
             callback(err, rows, fields);
         });
     }

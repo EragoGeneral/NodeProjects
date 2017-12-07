@@ -17,9 +17,11 @@ var url = "http://stockpage.10jqka.com.cn/";
 //初始url
 
 function fetchPage(x) {     //封装了一层函数
+    // 这两个方法不再使用
     //updateStockBaseInfo(x);
-    loadAllStocks();
     //loadStockDetailInfo(1, 10);
+
+    loadAllStocks();
 }
 
 function loadAllStocks(){
@@ -43,9 +45,7 @@ function loadAllStocks(){
             var pageSize = text.substring(text.indexOf('/')+1);
             //console.log(pageSize);
 
-            // for(var i = 1; i <= 1; i++){
-            //     (function(i) {
-                    //var stockPageUrl = 'http://q.10jqka.com.cn/index/index/board/all/field/zdf/order/desc/page/'+ i +'/ajax/1/';
+            //var stockPageUrl = 'http://q.10jqka.com.cn/index/index/board/all/field/zdf/order/desc/page/'+ i +'/ajax/1/';
             var stockPageUrl = 'http://nufm.dfcfw.com/EM_Finance2014NumericApplication/JS.aspx/JS.aspx?type=ct&st=(BalFlowMain)&sr=-1&p=1&ps=4000&js=var%20NeSTgasg={pages:(pc),date:%222014-10-22%22,data:[(x)]}&token=894050c76af8597a853f5b408b759f5d&cmd=C._AB&sty=DCFFITA&rt=50416281';
 
             http.get(stockPageUrl, function (res1) {
@@ -98,18 +98,14 @@ function loadAllStocks(){
             }).on('error', function (err) {
                 console.log(err);
             });
-
-                // })(i);
-
-            // }
         });
     }).on('error', function (err) {
         console.log(err);
     });
 }
 
-
-function updateStockBaseInfo(x) {
+//此方法不再使用
+/*function updateStockBaseInfo(x) {
     var codes = ['002024'];
     for(var pos = 0; pos < codes.length; pos++) {
         (function(pos){
@@ -202,7 +198,7 @@ function updateStockBaseInfo(x) {
             });
         })(pos);
     }
-}
+}*/
 
 fetchPage(url);      //主程序开始运行
 

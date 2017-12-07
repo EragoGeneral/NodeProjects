@@ -20,11 +20,12 @@ var url = "http://stockpage.10jqka.com.cn/";
 //初始url
 
 function fetchPage(x) {     //封装了一层函数
-    updateStockBaseInfo(x);
-    //loadStockDetailInfo(1, 100);
+    //updateStockBaseInfo(x);
+    loadStockDetailInfo(1, 100);
 }
 
-function updateStockBaseInfo(x) {
+//此方法；暂时不用
+/*function updateStockBaseInfo(x) {
     var codes = ['002461'];
     for(var pos = 0; pos < codes.length; pos++) {
         (function(pos){
@@ -118,10 +119,9 @@ function updateStockBaseInfo(x) {
             });
         })(pos);
     }
-}
+}*/
 
 fetchPage(url);      //主程序开始运行
-
 
 function loadStockDetailInfo(pageNum, pageSize) {
     var pageIndex = (pageNum - 1) * pageSize;
