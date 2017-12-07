@@ -16,7 +16,7 @@ var url = "http://ff.eastmoney.com/EM_CapitalFlowInterface/api/js?id=6010191&typ
 function fetchPage(x) {     //封装了一层函数
     //loadPageStock(3, 100);
 
-    var codes = ['002825'];
+    var codes = ['002824'];
     fillMissingMoneyFlow(codes);
 }
 

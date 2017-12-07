@@ -4,6 +4,9 @@ var cheerio = require('cheerio');
 var request = require('request');
 var db = require('./db');
 
+var iconv = require('iconv-lite');
+var BufferHelper = require('bufferhelper');
+
 var i = 0;
 
 //var url = "http://www.ss.pku.edu.cn/index.php/newscenter/news/2391"; 
@@ -17,19 +20,23 @@ var timestamp = new Date();
 
 function startRequest(x) {
     //采用http模块向服务器发起一次get请求
-    http.get(x, function (res) {
+    http.get(x, function (res1) {
         var html = '';        //用来存储请求网页的整个html内容
         var titles = [];
-        res.setEncoding('utf-8'); //防止中文乱码
+        //res1.setEncoding('utf-8'); //防止中文乱码
         //监听data事件，每次取一块数据
-        res.on('data', function (chunk) {
-            html += chunk;
+		 var bufferHelper = new BufferHelper();
+        res1.on('data', function (chunk1) {
+            html += chunk1;
+			bufferHelper.concat(chunk1);
         });
         //监听end事件，如果整个网页内容的html都获取完毕，就执行回调函数
-        res.on('end', function () {
-            var $ = cheerio.load(html); //采用cheerio模块解析html
-
-            var data = $('#maincont #gnSection');
+        res1.on('end', function () {
+			var html1 = iconv.decode(bufferHelper.toBuffer(),'GBK');
+            var $ = cheerio.load(html1); //采用cheerio模块解析html
+			
+			//console.log($);
+           /* var data = $('#maincont #gnSection');
             //console.log(data.val());
 
             data = eval("'" + data.val() + "'");
@@ -57,15 +64,50 @@ function startRequest(x) {
                 ["index1","www.google.com",1,0]
             ];
             console.log(values);*/
-            console.log(ret);
-            var sql = "insert into concept(code, name, create_time, update_time, is_deleted) values ?";
+            //console.log(ret);
+            
+			/*var sql = "insert into concept(code, name, create_time, update_time, is_deleted) values ?";
             db.batchInsert(sql, ret, function(err){
                 if(err){
                     console.log(err);
                     res.end('新增失败：' + err);
                 }
                 process.exit();
+            });*/
+			
+			
+			
+			var items_links = $('.cate_items a');
+			var records = [];
+			console.log(items_links.length);
+			items_links.each(function(idx, item){
+				//console.log(idx);
+				
+				var link = $(item).attr('href');
+				var urlCode = link.substring((link.length-1) - 6, link.length-1);
+				var name = $(item).text();
+				
+				console.log(urlCode);
+				console.log(name);
+				
+				var record = [];
+				record.push(urlCode);
+				record.push(name);
+				record.push(timestamp);
+				record.push(timestamp);
+				record.push(0);
+				records.push(record);
+			});
+			
+			var sql = "insert into concept(code, name, create_time, update_time, is_deleted) values ?";
+            db.batchInsert(sql, records, function(err){
+                if(err){
+                    console.log(err);
+                    res.end('新增失败：' + err);
+                }
+                process.exit();
             });
+			
         });
 
     }).on('error', function (err) {

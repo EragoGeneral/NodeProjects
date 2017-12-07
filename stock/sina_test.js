@@ -11,7 +11,7 @@ var BufferHelper = require('bufferhelper');
 var i = 0;
 
 //var url = "http://www.ss.pku.edu.cn/index.php/newscenter/news/2391";
-var url = "http://finance.sina.com.cn/realstock/company/sh600428/nc.shtml";
+var url = "http://quote.eastmoney.com/sz002024.html";
 //初始url
 
 function fetchPage(x) {     //封装了一层函数
@@ -38,11 +38,9 @@ function startRequest(x) {
             var $ = cheerio.load(html); //采用cheerio模块解析html
             //console.log($);
 
-            var table = $('#finance_overview table tbody tr td');
-            table.each(function(id){
-                //console.log(id);
-                console.log($(this).text());
-            });
+            var table = $('#rtp2');
+			console.log(table.text());
+            
 
             // var sql = "insert into concept(code, name, create_time, update_time, is_deleted) values ?";
             // db.batchInsert(sql, ret, function(err){
