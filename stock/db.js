@@ -23,7 +23,7 @@ module.exports = {
                 console.log('INSERT ERROR - ', err.message);
                 return;
             }
-            console.log("INSERT SUCCESS");
+            console.log('INSERT SUCCESS');
 
             callback(err);
         });
@@ -38,15 +38,15 @@ module.exports = {
 
     initStockInfo : function initStockInfo(values,callback){
         //connection.query("insert into stock(code, name, concept, total_guben, flow_guben, syl, is_deleted) values (?, ?, ?, ?, ?, ?, 0)", values, function (err, rows, fields) {
-        connection.query("insert into stock(code, name, price, syl, create_time, update_time, is_deleted) values (?, ?, ?, ?, ?, ?, 0)", values, function (err, rows, fields) {
-            console.log("INSERT SUCCESS");
+        connection.query('insert into stock(code, name, price, syl, create_time, update_time, is_deleted) values (?, ?, ?, ?, ?, ?, 0)', values, function (err, rows, fields) {
+            console.log('INSERT SUCCESS');
 
             callback(err);
         });
     },
 
     queryStockByPage : function queryStockByPage(pageIndex, pageSize, callback){
-        connection.query('select * from stock where POSITION(\'9\' IN CODE) <> 1 and total_guben is null order by id limit '+ pageIndex + ',' + pageSize, function (err, rows, fields) {
+        connection.query('select * from stock where POSITION(\'9\' IN CODE) <> 1 order by id limit '+ pageIndex + ',' + pageSize, function (err, rows, fields) {
             callback(err, rows, fields);
         });
     },
@@ -54,14 +54,14 @@ module.exports = {
     updateStockDetailInfo : function updateStockDetailInfo(sql, params, callback){
         connection.query(sql, params, function (err, rows, fields) {
             callback(err, rows, fields);
-            console.log("UPDATE SUCCESS");
+            console.log('UPDATE SUCCESS');
         });
     },
 
     updateStockBaseInfo : function updateStockBaseInfo(sql, params, callback){
         connection.query(sql, params, function (err, rows, fields) {
             callback(err, rows, fields);
-            console.log("UPDATE SUCCESS");
+            console.log('UPDATE SUCCESS');
         });
     },
 
@@ -76,6 +76,27 @@ module.exports = {
 
         connection.query(sql, params, function(err, rows, fields){
             callback(err, rows, fields);
+        });
+    },
+
+    queryStockDailyInfo : function(code, callback){
+        var sql = 'select * from stock_daily_info where stock_code = ?';
+        connection.query(sql, code, function(err, rows, fields){
+            callback(err, rows, fields);
+        });
+    },
+
+    initStockDailyInfo : function(sql, params, callback){
+        connection.query(sql, params, function(err, rows, fields){
+            callback(err, rows, fields);
+            console.log('INSERT SUCCESS');
+        });
+    },
+
+    updateStockDailyInfo : function(sql, params, callback){
+        connection.query(sql, params, function(err, rows, fields){
+            callback(err, rows, fields);
+            console.log('UPDATE SUCCESS');
         });
     }
 };
