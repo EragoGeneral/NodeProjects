@@ -234,8 +234,9 @@ function loadStockInfo(stocks) {
                     });
                 }else{
                     var updCode = rows[0].code;
-                    var sql = 'update stock set price = ? where code = ?';
-                    var updParams = [price, updCode];
+                    var timestamp = new Date();
+                    var sql = 'update stock set price = ?, update_time = ? where code = ?';
+                    var updParams = [price, timestamp, updCode];
                     db.updateStockBaseInfo(sql, updParams, function (err, rows, fields) {
                        if(err){
                            console.log(err);

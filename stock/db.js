@@ -46,7 +46,7 @@ module.exports = {
     },
 
     queryStockByPage : function queryStockByPage(pageIndex, pageSize, callback){
-        connection.query('select * from stock where POSITION(\'9\' IN CODE) <> 1 order by id limit '+ pageIndex + ',' + pageSize, function (err, rows, fields) {
+        connection.query('select * from stock where is_deleted = 0 and POSITION(\'9\' IN CODE) <> 1 order by id limit '+ pageIndex + ',' + pageSize, function (err, rows, fields) {
             callback(err, rows, fields);
         });
     },
@@ -79,9 +79,8 @@ module.exports = {
         });
     },
 
-    queryStockDailyInfo : function(code, callback){
-        var sql = 'select * from stock_daily_info where stock_code = ?';
-        connection.query(sql, code, function(err, rows, fields){
+    queryStockDailyInfo : function(sql, params, callback){
+        connection.query(sql, params, function(err, rows, fields){
             callback(err, rows, fields);
         });
     },
@@ -97,6 +96,21 @@ module.exports = {
         connection.query(sql, params, function(err, rows, fields){
             callback(err, rows, fields);
             console.log('UPDATE SUCCESS');
+        });
+    },
+
+    queryConcept: function(pageIndex, pageSize, callback){
+        var sql = 'select id, code from concept where is_deleted = 0 limit ?, ?';
+        var params = [pageIndex, pageSize];
+        connection.query(sql, params, function(err, rows, fields){
+            callback(err, rows, fields);
+        });
+    },
+
+    deleteConceptStock:function(conceptCode, callback){
+        var sql = 'update concept_stock set is_deleted = 1 where concept_code = ?';
+        connection.query(sql, conceptCode, function(err){
+            callback(err);
         });
     }
 };

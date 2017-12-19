@@ -21,7 +21,9 @@ var url = "http://stockpage.10jqka.com.cn/";
 
 function fetchPage(x) {     //封装了一层函数
     //updateStockBaseInfo(x);
-    loadStockDetailInfo(1, 100);
+    loadStockDetailInfo(8, 500);
+    /*var ret = tools.removeCharacter('0.40亿元');
+    console.log(ret);*/
 }
 
 //此方法；暂时不用
@@ -179,16 +181,16 @@ function loadStockDetailInfo(pageNum, pageSize) {
                         }
 
                         var concept = valueArray[1];
-                        var per_net_asset = valueArray[4];
-                        var per_benefit = valueArray[5];
-                        var net_profit = valueArray[6];
+                        var per_net_asset = tools.removeCharacter(valueArray[4]);
+                        var per_benefit = tools.removeCharacter(valueArray[5]);
+                        var net_profit = tools.removeCharacter(valueArray[6]);
                         var net_profit_rate = valueArray[7];
-                        var income = valueArray[8];
-                        var per_money_flow = valueArray[9];
-                        var per_funds = valueArray[10];
-                        var per_ua_profit = valueArray[11];
-                        var total_guben = valueArray[12];
-                        var flow_guben = valueArray[13];
+                        var income = tools.removeCharacter(valueArray[8]);
+                        var per_money_flow = tools.removeCharacter(valueArray[9]);
+                        var per_funds = tools.removeCharacter(valueArray[10]);
+                        var per_ua_profit = tools.removeCharacter(valueArray[11]);
+                        var total_guben = tools.removeCharacter(valueArray[12]);
+                        var flow_guben = tools.removeCharacter(valueArray[13]);
                         var timestamp = new Date();
                         var sql = 'update stock set concept = ?, per_net_asset = ?, per_benefit = ?, net_profit = ?, net_profit_rate = ?, income = ?, per_money_flow = ?, per_funds = ?, per_ua_profit= ?, total_guben = ?, flow_guben = ?, update_time = ? where code = ?';
                         var params = [concept, per_net_asset, per_benefit, net_profit, net_profit_rate, income, per_money_flow, per_funds, per_ua_profit, total_guben, flow_guben, timestamp, code];

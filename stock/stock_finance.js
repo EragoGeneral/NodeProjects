@@ -17,8 +17,8 @@ var url = "http://stockpage.10jqka.com.cn/";
 //初始url
 
 function fetchPage(x) {     //封装了一层函数
-    //updateStockCapitalFlow(1, 50);
-    loadStockMoneyFlow('601999');
+    updateStockCapitalFlow(1, 300);
+    //loadStockMoneyFlow('600698');
 }
 
 function updateStockCapitalFlow(pageNumber, pageSize){
@@ -27,22 +27,22 @@ function updateStockCapitalFlow(pageNumber, pageSize){
     var queryDate = dd.getFullYear() + '-' + (dd.getMonth()+1) + '-' + dd.getDate();
 
     var sql = 'SELECT s.code, t.cnt FROM stock s ' +
-        'JOIN stock_daily_info d ON d.stock_code = s.code  ' +
+        'JOIN stock_daily_info d ON d.is_deleted = 0 AND d.price <> \'\' and d.stock_code = s.code and `date` = \''+ queryDate +'\' ' +
         'LEFT JOIN ( SELECT stock_code, COUNT(id) AS cnt  ' +
         'FROM money_flow ' +
         'where `date` = \'' + queryDate + '\''+
         ' GROUP BY stock_code) t ON t.stock_code = s.code ' +
-        'WHERE s.price < 40 ' +
+        'WHERE s.is_deleted = 0 and s.price < 40 ' +
         'AND s.per_net_asset > 2 ' +
         'AND s.per_funds > 1 ' +
-        'AND s.flow_guben < 1 ' +
-        'AND POSITION(\9\ IN s.CODE) <> 1 AND POSITION(\2\ IN s.CODE) <> 1 AND s.is_deleted = 0 ' +
+       // 'AND s.flow_guben < 1 ' +
+        //'AND POSITION(\9\ IN s.CODE) <> 1 AND POSITION(\2\ IN s.CODE) <> 1 AND s.is_deleted = 0 ' +
         'AND d.syl < 40  ' +
         'and t.cnt is null ' +
         'order by s.id limit ?, ?';
     var pageIndex = (pageNumber-1)*pageSize;
     var params = [pageIndex, pageSize];
-    console.log(sql);
+    //console.log(sql);
     db.queryNoMoneyFlow(sql, params, function (err, rows, fields) {
         if(err){
             console.log(err);
