@@ -18,7 +18,7 @@ var url = "http://stockpage.10jqka.com.cn/";
 
 function fetchPage(x) {     //封装了一层函数
     updateStockCapitalFlow(1, 300);
-    //loadStockMoneyFlow('600698');
+    //loadStockMoneyFlow('002210');
 }
 
 function updateStockCapitalFlow(pageNumber, pageSize){
@@ -32,8 +32,9 @@ function updateStockCapitalFlow(pageNumber, pageSize){
         'FROM money_flow ' +
         'where `date` = \'' + queryDate + '\''+
         ' GROUP BY stock_code) t ON t.stock_code = s.code ' +
-        'WHERE s.is_deleted = 0 and s.price < 40 ' +
+        'WHERE s.is_deleted = 0 and s.price < 40  ' +
         'AND s.per_net_asset > 2 ' +
+        'AND s.per_benefit > 0 ' +
         'AND s.per_funds > 1 ' +
        // 'AND s.flow_guben < 1 ' +
         //'AND POSITION(\9\ IN s.CODE) <> 1 AND POSITION(\2\ IN s.CODE) <> 1 AND s.is_deleted = 0 ' +
@@ -95,6 +96,7 @@ function loadStockMoneyFlow(code){
             var records = [];
             var d = new Date();
             var dateStr = d.getFullYear() + '-' + (d.getMonth()+1) + '-' + d.getDate();
+            console.log(dateStr);
             for(var idx = 0; idx < timeArray.length-1; idx ++){
                 //console.log(timeArray[idx] + " : " + capital[idx]);
                 var capitalArray = capital[idx].split(',');

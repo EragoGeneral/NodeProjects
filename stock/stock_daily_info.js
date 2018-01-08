@@ -15,11 +15,25 @@ var i = 0;
 var url = "http://qd.10jqka.com.cn/quote.php?cate=real&type=stock&return=json&callback=showStockData&code=";
 
 function fetchPage(x) {     //封装了一层函数
-    var pageNumber = 8;
-    var pageSize = 500;
+    //updatePageStockInfo(12, 300);
 
+    var codeArray = ['000991',
+        '600349',
+        '002720',
+        '300361',
+        '002710',
+        '000916',
+        '002525',
+        '002257'];
+    codeArray.forEach(function(element){
+        loadStockDailyInfo(element);
+    });
+}
+
+fetchPage(url);      //主程序开始运行
+
+function updatePageStockInfo(pageNumber, pageSize){
     var pageIndex = (pageNumber - 1) * pageSize;
-    //var codeArray = [];
 
     db.queryStockByPage(pageIndex, pageSize, function (err, rows, fields) {
         if (rows.length > 0) {
@@ -27,15 +41,10 @@ function fetchPage(x) {     //封装了一层函数
             rows.forEach(function (element) {
                 queryCode += element.code + ',';
             });
-            //codeArray.push(queryCode);
             loadStockDailyInfo(queryCode);
         }
     });
-
-    //loadStockDailyInfo('601069');
 }
-
-fetchPage(url);      //主程序开始运行
 
 function loadStockDailyInfo(code) {
     //console.log('code: '+code);
