@@ -15,19 +15,21 @@ var i = 0;
 var url = "http://qd.10jqka.com.cn/quote.php?cate=real&type=stock&return=json&callback=showStockData&code=";
 
 function fetchPage(x) {     //封装了一层函数
-    //updatePageStockInfo(12, 300);
+    updatePageStockInfo(18, 200);
 
-    var codeArray = ['000991',
-        '600349',
-        '002720',
-        '300361',
-        '002710',
-        '000916',
-        '002525',
-        '002257'];
+    /*var codeArray = [
+     '601313',
+     '000991',
+     '600349',
+     '002720',
+     '300361',
+     '002710',
+     '000916',
+     '002525',
+     '002257'];
     codeArray.forEach(function(element){
         loadStockDailyInfo(element);
-    });
+    });*/
 }
 
 fetchPage(url);      //主程序开始运行

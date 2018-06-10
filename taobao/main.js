@@ -28,7 +28,7 @@ const job  = schedule.scheduleJob(rule, () => {
 			try{
 				const html = await requestAsync(url, 'utf-8')
 				const articles = await zhihuParse(html)
-				
+
 				//connection mongodb
 			   const info = await createConnection(dbUri)
 			   console.log(`Connected to ${info.host}:${info.port}/${info.name}`)
@@ -37,9 +37,9 @@ const job  = schedule.scheduleJob(rule, () => {
 			   console.log('insert ' + docs.insertedCount + ' rows success');
 			   //close connection
 			   await closeConnection();
-				
+
 			}catch(error){
 				console.log(error)
 			}
-})();
+	})();
 })

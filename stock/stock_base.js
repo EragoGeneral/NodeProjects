@@ -21,7 +21,7 @@ var url = "http://stockpage.10jqka.com.cn/";
 
 function fetchPage(x) {     //封装了一层函数
     //updateStockBaseInfo(x);
-    loadStockDetailInfo(1, 100);
+    loadStockDetailInfo(14, 200);
     /*var ret = tools.removeCharacter('0.40亿元');
     console.log(ret);*/
 }

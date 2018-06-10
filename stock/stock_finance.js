@@ -17,8 +17,8 @@ var url = "http://stockpage.10jqka.com.cn/";
 //初始url
 
 function fetchPage(x) {     //封装了一层函数
-    updateStockCapitalFlow(1, 300);
-    //loadStockMoneyFlow('002210');
+    //updateStockCapitalFlow(1, 50);
+    loadStockMoneyFlow('002819');
 }
 
 function updateStockCapitalFlow(pageNumber, pageSize){
@@ -36,7 +36,7 @@ function updateStockCapitalFlow(pageNumber, pageSize){
         'AND s.per_net_asset > 2 ' +
         'AND s.per_benefit > 0 ' +
         'AND s.per_funds > 1 ' +
-       // 'AND s.flow_guben < 1 ' +
+        'AND s.flow_guben < 6 ' +
         //'AND POSITION(\9\ IN s.CODE) <> 1 AND POSITION(\2\ IN s.CODE) <> 1 AND s.is_deleted = 0 ' +
         'AND d.syl < 40  ' +
         'and t.cnt is null ' +
