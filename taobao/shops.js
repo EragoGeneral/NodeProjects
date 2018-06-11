@@ -1,6 +1,7 @@
 var https = require('https');
 var cheerio = require('cheerio');
 var iconv = require('iconv-lite');
+var fs = require('fs');
 
 var option={
     hostname:'chioture.tmall.com',
@@ -37,6 +38,16 @@ https.get(option,function(res){
 		_linkArray.push(items[i].attribs.href.substring(2));
 	}
 		
-	console.log(_titleArray);	
+	//console.log(_titleArray);
+    for(var j = 0; j < _linkArray.length; j++){
+        var link = _linkArray[j];
+        (function(link){
+            fs.open("link.txt","a",function(err,fd){
+                var buf = new Buffer(link+ "\n");
+                fs.writeSync(fd, buf,0,buf.length,0);
+            });
+        })(link);
+    }
+
   })
 })

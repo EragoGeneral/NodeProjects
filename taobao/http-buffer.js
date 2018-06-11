@@ -8,17 +8,17 @@ export default function requestAsync(url, encode){
     return new Promise((reslove, reject) => {
         request.get({url, encoding: null}, function(error, response, body){
             //console.log(body)
-            console.log('finished')
+            //console.log('finished')
             if(error){
                 reject(error)
             }
             //判断是否需要编码转换
-            /*if(encode){
+            if(encode){
                 let data = iconv.decode(body, encode)
                 reslove(data)
             }else{
                 reslove(body)
-            }*/
+            }
         })
     })
 }
